@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MaterialModule } from './material.module';
 
 /*
  * The Shared Module contains features that are
@@ -10,10 +11,10 @@ import { CommonModule } from '@angular/common';
   declarations: [],
   imports: [
     CommonModule,
-    
+    MaterialModule
   ],
   exports:[
-    
+    MaterialModule
   ]
 })
 export class SharedModule { }
