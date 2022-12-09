@@ -1,0 +1,9 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Actualité</mat-card-title>
+    </mat-card-header>
+
+    <mat-card *ngFor="let article of articles$ | async">
+        <mat-card-title>{{article.title}}</mat-card-title>
+    </mat-card>
+</mat-card>
