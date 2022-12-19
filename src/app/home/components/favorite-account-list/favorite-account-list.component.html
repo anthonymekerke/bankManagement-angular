@@ -3,8 +3,8 @@
     <ng-container *ngFor="let account of accounts$ | async">
         <mat-card border [accountType]="account.accountType" class="favorite-account-card">
             <mat-card-title class="row">
-                <p class="label">{{account.label}}</p>
-                <p class="balance">{{account.balance | currency:'EUR':'symbol':'1.1-2'}}</p>
+                <p class="card-account-label">{{account.label}}</p>
+                <p class="card-account-balance">{{account.balance | currency:'EUR':'symbol':'1.1-2'}}</p>
             </mat-card-title>
             <mat-card-subtitle> {{account.iban | iban }} </mat-card-subtitle>
             <mat-card-content>
