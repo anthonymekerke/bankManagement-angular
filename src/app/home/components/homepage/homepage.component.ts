@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
+
+import { Account } from 'src/app/shared/models/account.model';
 import { Article } from '../../models/article.model';
 
 @Component({
@@ -11,6 +13,7 @@ import { Article } from '../../models/article.model';
 export class HomepageComponent implements OnInit {
 
   articles$!: Observable<Article[]>;
+  accounts$!: Observable<Account[]>;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -22,5 +25,9 @@ export class HomepageComponent implements OnInit {
     this.articles$ = this.route.data.pipe(
       map(data => data['articles']) // match the resolve attribute define in the routing module
     );
+
+    this.accounts$ = this.route.data.pipe(
+      map(data => data['accounts'])
+    )
   }
 }

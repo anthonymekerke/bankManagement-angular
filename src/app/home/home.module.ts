@@ -7,12 +7,14 @@ import { ArticleService } from './services/article.service';
 import { ArticleListComponent } from './components/article-list/article-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { ArticlesResolver } from './resolvers/articles.resolver';
+import { FavoriteAccountListComponent } from './components/favorite-account-list/favorite-account-list.component';
 
 
 @NgModule({
   declarations: [
     HomepageComponent,
-    ArticleListComponent
+    ArticleListComponent,
+    FavoriteAccountListComponent
   ],
   imports: [
     CommonModule,
