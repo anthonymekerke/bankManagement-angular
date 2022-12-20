@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { delay, map, tap } from 'rxjs/operators';
+import { delay, map, switchMap, tap } from 'rxjs/operators';
 
 import { AppConstant } from 'src/app/shared/constants/app.constant';
+import { AccountType } from 'src/app/shared/enums/account-type.enum';
 import { Account } from 'src/app/shared/models/account.model';
 import { environment } from 'src/environments/environment';
 
@@ -46,6 +47,21 @@ export class AccountService {
         return this._accounts$.pipe(
             map(accounts => accounts.filter(account => account.id === id)[0])
         );
+    }
+
+    getAccountTypedById(id: number): Observable<Account>{
+        this.loadAccounts();
+
+        return this._accounts$.pipe(
+            map(accounts => accounts.find(account => account.id === id)?.accountType),
+            switchMap(type => {
+                if(type === AccountType.CURRENT_ACCOUNT){
+                    return this.http.get<Account>(`${environment.apiUrl}/${environment.get_current_accounts_id}`)
+                }else{
+                    return this.http.get<Account>(`${environment.apiUrl}/${environment.get_saving_accounts_id}`)
+                }
+            })
+        )       
     }
 
     getFavoriteAccounts(): Observable<Account[]>{

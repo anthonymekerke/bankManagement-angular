@@ -7,4 +7,7 @@ export class Account{
     accountType!: AccountType;
     balance!: number;
     iban!: string;
+
+    bankOverdraft?: number;
+    interestRate?: number;
 }

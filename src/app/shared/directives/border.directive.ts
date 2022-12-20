@@ -25,9 +25,9 @@ export class BorderDirective implements AfterViewInit {
   private determineColor(accountType: AccountType): string{
       switch(accountType){
           case AccountType.CURRENT_ACCOUNT:
-              return "#00A4BD";
+              return "#B53F51";
           case AccountType.SAVING_ACCOUNT:
-              return "#E91E63";
+              return "#51B53F";
           default:
               return "white";
       }

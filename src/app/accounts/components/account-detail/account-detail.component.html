@@ -1,0 +1,15 @@
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" color="primary" backgroundColor="accent">
+    <mat-tab label="Opérations">
+        TODO: lister les transactions liées au compte
+    </mat-tab>
+
+    <mat-tab label="Caractéristiques">
+        <mat-card *ngIf="account$ | async as account">
+            <mat-card-title>{{account.label}}</mat-card-title>
+            <mat-card-title class="card-account-label">Type de compte: {{account.accountType}}</mat-card-title>
+            <mat-card-title class="card-account-label">Date de création: {{account.creationDate | date:'mediumDate'}}</mat-card-title>
+            <mat-card-title *ngIf="account.bankOverdraft" class="card-account-label">Découvert autorisé: {{account.bankOverdraft | currency:'EUR':'symbol':'1.1-2'}}</mat-card-title>
+            <mat-card-title *ngIf="account.interestRate" class="card-account-label">Taux d'intérêt: {{account.interestRate/100 | percent:'1.1-2'}}</mat-card-title>
+        </mat-card>
+    </mat-tab>
+</mat-tab-group>
