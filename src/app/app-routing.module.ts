@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: '', loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule) },
   { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule), canActivate: [AuthGuard] },
   { path: 'accounts', loadChildren: () => import('./accounts/accounts.module').then(m => m.AccountsModule), canActivate: [AuthGuard] },
+  { path: 'transfer', loadChildren: () => import('./transfer/transfer.module').then(m => m.TransferModule), canActivate: [AuthGuard] },
   { path: '**', redirectTo: ''} //wildcard route that activates when no other define routes is found
 ];
 
