@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material.module';
 import { IbanPipe } from './pipes/iban.pipe';
 import { BorderDirective } from './directives/border.directive';
+import { TransactionPipe } from './pipes/transaction.pipe';
 
 /*
  * The Shared Module contains features that are
@@ -13,6 +14,7 @@ import { BorderDirective } from './directives/border.directive';
 @NgModule({
   declarations: [
     IbanPipe,
+    TransactionPipe,
     BorderDirective
   ],
   imports: [
@@ -22,6 +24,7 @@ import { BorderDirective } from './directives/border.directive';
   exports:[
     MaterialModule,
     IbanPipe,
+    TransactionPipe,
     BorderDirective
   ]
 })

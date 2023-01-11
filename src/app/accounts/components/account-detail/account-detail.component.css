@@ -1,0 +1,22 @@
+table{
+    background-color: white;
+    width: 100%;
+}
+
+.center{
+    text-align: center;
+}
+
+.right{
+    text-align: right;
+}
+
+.withdraw{
+    color: #DE781F;
+    font-weight: bold;
+}
+
+.payment{
+    color: #1F85DE;
+    font-weight: bold;
+}
