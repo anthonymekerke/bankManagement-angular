@@ -12,7 +12,7 @@
             <tbody>
                 <tr *ngFor="let transaction of transactions$ | async">
                     <td class="center">{{transaction.executionDate | date:'shortDate'}}</td>
-                    <td>{{transaction.wording}}</td>
+                    <td><a routerLink="/accounts/{{account.id}}/transactions/{{transaction.id}}">{{transaction.wording}}</a></td>
                     <td class="center withdraw"> {{transaction.withdraw | transaction:'withdraw' | currency:'EUR':'symbol':'1.1-2' }}</td>
                     <td class="center payment"> {{transaction.payment | transaction:'payment' | currency:'EUR':'symbol':'1.1-2' }}</td>
                 </tr>
@@ -23,10 +23,10 @@
     <mat-tab label="Caractéristiques">
         <mat-card>
             <mat-card-title>{{account.label}}</mat-card-title>
-            <mat-card-title class="card-account-label">Type de compte: {{account.accountType}}</mat-card-title>
-            <mat-card-title class="card-account-label">Date d'ouverture: {{account.creationDate | date:'mediumDate'}}</mat-card-title>
-            <mat-card-title *ngIf="account.bankOverdraft" class="card-account-label">Découvert autorisé: {{account.bankOverdraft | currency:'EUR':'symbol':'1.1-2'}}</mat-card-title>
-            <mat-card-title *ngIf="account.interestRate" class="card-account-label">Taux d'intérêt: {{account.interestRate/100 | percent:'1.1-2'}}</mat-card-title>
+            <mat-card-title class="card-label">Type de compte: {{account.accountType}}</mat-card-title>
+            <mat-card-title class="card-label">Date d'ouverture: {{account.creationDate | date:'mediumDate'}}</mat-card-title>
+            <mat-card-title *ngIf="account.bankOverdraft" class="card-label">Découvert autorisé: {{account.bankOverdraft | currency:'EUR':'symbol':'1.1-2'}}</mat-card-title>
+            <mat-card-title *ngIf="account.interestRate" class="card-label">Taux d'intérêt: {{account.interestRate/100 | percent:'1.1-2'}}</mat-card-title>
         </mat-card>
     </mat-tab>
 </mat-tab-group>

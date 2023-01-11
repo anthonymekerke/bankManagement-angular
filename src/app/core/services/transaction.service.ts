@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AppConstant } from 'src/app/shared/constants/app.constant';
 import { Transaction } from 'src/app/shared/models/transaction.model';
 import { environment } from 'src/environments/environment';
@@ -38,6 +38,14 @@ export class TransactionService {
         this.setLoadingStatus(false);
       })
     ).subscribe();
+  }
+
+  getTransactionById(accountId: number, transactionId: number): Observable<Transaction>{
+    this.loadTransactions(accountId);
+    
+    return this._transactions$.pipe(
+      map(transactions => transactions.filter(transaction => transaction.id === transactionId)[0])
+    );
   }
 
   private canReload(accountId: number): boolean{

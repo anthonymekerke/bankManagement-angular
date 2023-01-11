@@ -1,0 +1,11 @@
+<mat-card *ngIf="transaction$ | async as transaction">
+    <mat-card-title>{{transaction.wording}}</mat-card-title>
+
+    <mat-card-title class="card-label" *ngIf="transaction.withdraw"> Montant: {{transaction.withdraw | transaction:'withdraw' | currency:'EUR':'symbol':'1.1-2' }}</mat-card-title>
+    <mat-card-title class="card-label" *ngIf="transaction.payment"> Montant: {{transaction.payment | transaction:'payment' | currency:'EUR':'symbol':'1.1-2' }}</mat-card-title>
+
+    <mat-card-title class="card-label">Date d'execution: {{transaction.executionDate | date:'shortDate'}}</mat-card-title>
+    <mat-card-title class="card-label">Date effectif sur le compte: {{transaction.valueDate | date:'shortDate'}}</mat-card-title>
+
+    <mat-card-title class="card-label">Type de paiement: Prelevement SEPA</mat-card-title>
+</mat-card>
