@@ -8,7 +8,8 @@ export const environment = {
   get_accounts: 'get__accounts',
   get_saving_accounts_id: 'get__saving_accounts_id',
   get_current_accounts_id: 'get__current_accounts_id',
-  get_accounts_id_transactions:'get__accounts_id_transactions'
+  get_accounts_id_transactions:'get__accounts_id_transactions',
+  post_transactions: 'post__transactions'
 };
 
 /*

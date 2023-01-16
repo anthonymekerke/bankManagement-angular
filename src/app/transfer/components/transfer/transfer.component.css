@@ -1,0 +1,18 @@
+mat-form-field {
+    width: 45%;
+}
+
+mat-card-actions {
+    text-align: center;
+}
+
+.full-width {
+    width: 80%;
+    margin-left: 10%;
+}
+  
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

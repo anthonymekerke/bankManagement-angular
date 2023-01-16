@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 import { AppConstant } from 'src/app/shared/constants/app.constant';
+import { Account } from 'src/app/shared/models/account.model';
 import { Transaction } from 'src/app/shared/models/transaction.model';
 import { environment } from 'src/environments/environment';
 
@@ -46,6 +47,26 @@ export class TransactionService {
     return this._transactions$.pipe(
       map(transactions => transactions.filter(transaction => transaction.id === transactionId)[0])
     );
+  }
+
+  postTransaction(form: {amount: number, valueDate: Date, account: Account}): Observable<boolean>{
+    let newTransaction: Transaction = {
+      id: 0, //must be compute in backend
+      executionDate: new Date().toISOString(),
+      valueDate: form.valueDate.toISOString(),
+      withdraw: form.amount,
+      payment: null,
+      wording: `TRANSACTION MADE FROM APP OF ${form.amount} EUROS`,
+      balance: 0, //must be compute in backend
+      account: form.account 
+    }
+
+    return this.http.post(`${environment.apiUrl}/${environment.post_transactions}`, newTransaction).pipe(
+      map(() => true),
+      catchError(() => of(false).pipe(
+        delay(1000)
+      ))
+    )
   }
 
   private canReload(accountId: number): boolean{

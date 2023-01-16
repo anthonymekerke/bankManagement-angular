@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from './material.module';
 import { IbanPipe } from './pipes/iban.pipe';
@@ -19,9 +20,13 @@ import { TransactionPipe } from './pipes/transaction.pipe';
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports:[
+    FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     IbanPipe,
     TransactionPipe,

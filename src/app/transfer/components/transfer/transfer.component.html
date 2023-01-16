@@ -1,1 +1,62 @@
-<p>transfer works!</p>
+<mat-card [formGroup]="transactionForm">
+    
+    <mat-card-title>Effectuer un virement</mat-card-title>
+
+    <div class="form-row">
+        <mat-form-field appearance="fill">
+            <mat-label>Montant</mat-label>
+            <input type="text" matInput formControlName="amount" required>
+        </mat-form-field>
+    
+        <mat-form-field appearance="fill">
+            <mat-label>Compte à prelever</mat-label>
+            <select matNativeControl formControlName="account" required>
+                <option *ngFor="let account of accounts$ | async" [ngValue]="account">
+                    {{account.label}}
+                </option>
+            </select>
+        </mat-form-field>
+    </div>
+    
+    <div class="form-row">
+        <mat-form-field appearance="fill">
+            <mat-label>Date effective</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="valueDate" required>
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        
+        <mat-form-field>
+            <mat-label>IBAN du beneficiaire</mat-label>
+            <input type="text" matInput formControlName="recipientIban" required>
+        </mat-form-field>
+    </div>
+
+    <mat-slide-toggle [(ngModel)]="extras" [ngModelOptions]="{standalone: true}">Ajoutée des libellé personalisée</mat-slide-toggle>
+
+    <ng-container *ngIf="extras">
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Motif pour le beneficaire</mat-label>
+            <input type="text" matInput formControlName="recipientReason">
+            <mat-error>Ce champ est requis</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Libelle pour le beneficiaire</mat-label>
+            <input type="text" matInput formControlName="recipientWording">
+            <mat-error>Ce champ est requis</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Reference pour le beneficiaire</mat-label>
+            <input type="text" matInput formControlName="recipientWording">
+            <mat-error>Ce champ est requis</mat-error>
+        </mat-form-field>
+    </ng-container>
+
+    <mat-card-actions *ngIf="transactionForm.valid">
+        <button mat-flat-button color="primary" (click)="onSubmitForm()">EFFECTUER</button>
+    </mat-card-actions>
+
+</mat-card>
