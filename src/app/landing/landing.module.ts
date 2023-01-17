@@ -5,7 +5,7 @@ import { LandingRoutingModule } from './landing-routing.module';
 import { LoginComponent } from './components/login/login.component';
 import { DocumentationComponent } from './components/documentation/documentation.component';
 import { SharedModule } from '../shared/shared.module';
-import { RouterModule } from '@angular/router';
+import { LoginFormService } from './services/login-form.service';
 
 /*
  * feature modules (functionnalities in the same domain) that activate in the
@@ -21,6 +21,9 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     LandingRoutingModule,
     SharedModule
+  ],
+  providers: [
+    LoginFormService
   ]
 })
 export class LandingModule { }
