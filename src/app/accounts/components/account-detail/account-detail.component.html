@@ -23,7 +23,7 @@
     <mat-tab label="Caractéristiques">
         <mat-card>
             <mat-card-title>{{account.label}}</mat-card-title>
-            <mat-card-title class="card-label">Type de compte: {{account.accountType}}</mat-card-title>
+            <mat-card-title class="card-label">Type de compte: {{account.accountType | accountType}}</mat-card-title>
             <mat-card-title class="card-label">Date d'ouverture: {{account.creationDate | date:'mediumDate'}}</mat-card-title>
             <mat-card-title *ngIf="account.bankOverdraft" class="card-label">Découvert autorisé: {{account.bankOverdraft | currency:'EUR':'symbol':'1.1-2'}}</mat-card-title>
             <mat-card-title *ngIf="account.interestRate" class="card-label">Taux d'intérêt: {{account.interestRate/100 | percent:'1.1-2'}}</mat-card-title>

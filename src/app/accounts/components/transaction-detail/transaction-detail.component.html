@@ -7,5 +7,5 @@
     <mat-card-title class="card-label">Date d'execution: {{transaction.executionDate | date:'shortDate'}}</mat-card-title>
     <mat-card-title class="card-label">Date effectif sur le compte: {{transaction.valueDate | date:'shortDate'}}</mat-card-title>
 
-    <mat-card-title class="card-label">Type de paiement: Prelevement SEPA</mat-card-title>
+    <mat-card-title class="card-label">Type de paiement: {{transaction.wording | transactionType}}</mat-card-title>
 </mat-card>

@@ -6,6 +6,8 @@ import { MaterialModule } from './material.module';
 import { IbanPipe } from './pipes/iban.pipe';
 import { BorderDirective } from './directives/border.directive';
 import { TransactionPipe } from './pipes/transaction.pipe';
+import { AccountTypePipe } from './pipes/account-type.pipe';
+import { TransactionTypePipe } from './pipes/transaction-type.pipe';
 
 /*
  * The Shared Module contains features that are
@@ -16,6 +18,8 @@ import { TransactionPipe } from './pipes/transaction.pipe';
   declarations: [
     IbanPipe,
     TransactionPipe,
+    AccountTypePipe,
+    TransactionTypePipe,
     BorderDirective
   ],
   imports: [
@@ -30,6 +34,8 @@ import { TransactionPipe } from './pipes/transaction.pipe';
     MaterialModule,
     IbanPipe,
     TransactionPipe,
+    AccountTypePipe,
+    TransactionTypePipe,
     BorderDirective
   ]
 })
