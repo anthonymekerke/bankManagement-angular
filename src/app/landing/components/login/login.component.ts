@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { AuthService } from 'src/app/core/services/auth.service';
+import { Client } from 'src/app/shared/models/client.model';
 import { LoginFormService } from '../../services/login-form.service';
 
 @Component({
@@ -11,11 +11,11 @@ import { LoginFormService } from '../../services/login-form.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  model = new Client();
 
   loginForm!: FormGroup;
 
-  constructor(private router: Router,
-    private authService: AuthService, 
+  constructor(private authService: AuthService, 
     private loginFormService: LoginFormService) { }
 
   ngOnInit(): void {
@@ -23,8 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   connect(): void{
-    this.authService.login();
-    this.router.navigateByUrl('/home');
+    this.authService.login({username: this.loginForm.value.username, password: this.loginForm.value.password});
   }
 
 }

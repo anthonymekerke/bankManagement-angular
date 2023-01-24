@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HeaderComponent } from './components/header/header.component';
 import { SharedModule } from '../shared/shared.module';
+import { httpInterceptorProvider } from './interceptors';
 
 /*
  * The Core Module contains shared singleton services and
@@ -25,6 +26,9 @@ import { SharedModule } from '../shared/shared.module';
   ],
   exports: [ //list declared modules that should be used elsewhere in the application
     HeaderComponent
+  ],
+  providers:[
+    httpInterceptorProvider
   ]
 })
 export class CoreModule { }

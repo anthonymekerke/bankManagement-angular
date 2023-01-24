@@ -9,7 +9,14 @@ export const environment = {
   get_saving_accounts_id: 'get__saving_accounts_id',
   get_current_accounts_id: 'get__current_accounts_id',
   get_accounts_id_transactions:'get__accounts_id_transactions',
-  post_transactions: 'post__transactions'
+  post_transactions: 'post__transactions',
+
+  API_URL: 'http://localhost:8080/bankManagement',
+  ACCOUNTS: 'accounts',
+  SAVING_ACCOUNTS: 'saving-accounts',
+  CURRENT_ACCOUNTS: 'current-accounts',
+  TRANSACTIONS:'transactions',
+  CLIENTS: 'clients'
 };
 
 /*
