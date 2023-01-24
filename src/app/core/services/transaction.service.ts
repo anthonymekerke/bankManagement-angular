@@ -16,6 +16,7 @@ export class TransactionService {
   private _transactions$ = new BehaviorSubject<Transaction[]>([]);
 
   private accountId!: number;
+  private username = '';
   private lastTimeLoaded = 0;
 
   constructor(private http: HttpClient) {}
@@ -29,12 +30,13 @@ export class TransactionService {
   }
 
   loadTransactions(accountId: number): void{
-    if(this.canReload(accountId)) {return;}
+    if(!this.canReload(accountId)) {return;}
 
     this.setLoadingStatus(true);
-    this.http.get<Transaction[]>(`${environment.apiUrl}/${environment.get_accounts_id_transactions}`).pipe(
+    this.http.get<Transaction[]>(`${environment.API_URL}/${environment.ACCOUNTS}/${accountId}/${environment.TRANSACTIONS}`).pipe(
       tap(transactions => {
         this.lastTimeLoaded = Date.now();
+        transactions.reverse();
         this._transactions$.next(transactions);
         this.setLoadingStatus(false);
       })
@@ -61,7 +63,7 @@ export class TransactionService {
       account: form.account 
     }
 
-    return this.http.post(`${environment.apiUrl}/${environment.post_transactions}`, newTransaction).pipe(
+    return this.http.post(`${environment.API_URL}/${environment.TRANSACTIONS}`, newTransaction).pipe(
       map(() => true),
       catchError(() => of(false).pipe(
         delay(1000)
@@ -70,11 +72,20 @@ export class TransactionService {
   }
 
   private canReload(accountId: number): boolean{
+    const credentials = window.sessionStorage.getItem(AppConstant.SESSION_STORAGE_CREDENTIALS_KEY);
+    const login = credentials ? JSON.parse(credentials).username : null;
+
+    if(this.username !== login){
+      this.username = login;
+      return true;
+    }
+    
     if(this.accountId !== accountId){
       this.accountId = accountId;
-      return false;
+      return true;
     }
-    return Date.now() - this.lastTimeLoaded <= AppConstant.DELAY_RELOAD
+
+    return Date.now() - this.lastTimeLoaded >= AppConstant.DELAY_RELOAD
   }
 
   private setLoadingStatus(loading: boolean) {

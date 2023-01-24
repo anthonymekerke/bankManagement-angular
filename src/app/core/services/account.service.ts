@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { delay, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { AppConstant } from 'src/app/shared/constants/app.constant';
 import { AccountType } from 'src/app/shared/enums/account-type.enum';
@@ -16,6 +16,7 @@ export class AccountService {
     private _loading$ = new BehaviorSubject<boolean>(false);
     private _accounts$ = new BehaviorSubject<Account[]>([]);
 
+    private username = '';
     private lastTimeLoaded = 0;
 
     constructor(private http: HttpClient){}
@@ -29,10 +30,10 @@ export class AccountService {
     }
 
     loadAccounts(): void {
-        if(this.canReload()) {return;}
+        if(!this.canReload()) {return;}
 
         this.setLoadingStatus(true);
-        this.http.get<Account[]>(`${environment.apiUrl}/${environment.get_accounts}`).pipe(
+        this.http.get<Account[]>(`${environment.API_URL}/${environment.ACCOUNTS}`).pipe(
             tap(accounts => {
                 this.lastTimeLoaded = Date.now();
                 this._accounts$.next(accounts);
@@ -56,9 +57,9 @@ export class AccountService {
             map(accounts => accounts.find(account => account.id === id)?.accountType),
             switchMap(type => {
                 if(type === AccountType.CURRENT_ACCOUNT){
-                    return this.http.get<Account>(`${environment.apiUrl}/${environment.get_current_accounts_id}`)
+                    return this.http.get<Account>(`${environment.API_URL}/${environment.CURRENT_ACCOUNTS}/${id}`)
                 }else{
-                    return this.http.get<Account>(`${environment.apiUrl}/${environment.get_saving_accounts_id}`)
+                    return this.http.get<Account>(`${environment.API_URL}/${environment.SAVING_ACCOUNTS}/${id}`)
                 }
             })
         )       
@@ -73,7 +74,15 @@ export class AccountService {
     }
 
     private canReload(): boolean {
-        return Date.now() - this.lastTimeLoaded <= AppConstant.DELAY_RELOAD
+        const credentials = window.sessionStorage.getItem(AppConstant.SESSION_STORAGE_CREDENTIALS_KEY);
+        const login = credentials ? JSON.parse(credentials).username : null;
+
+        if(this.username !== login){
+            this.username = login;
+            return true;
+        }
+
+        return Date.now() - this.lastTimeLoaded >= AppConstant.DELAY_RELOAD
     }
 
     private setLoadingStatus(loading: boolean) {
