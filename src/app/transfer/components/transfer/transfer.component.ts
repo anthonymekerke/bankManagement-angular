@@ -34,7 +34,10 @@ export class TransferComponent implements OnInit {
       account: this.transactionForm.value.account
     }).pipe(
       tap(saved => {
-        if(saved) {this.resetForm()}
+        if(saved) {
+          this.resetForm()
+          this.accountService.loadAccounts(true)
+        }
         else {console.error('Echec de l\'enregistrement')}
       })
     ).subscribe();

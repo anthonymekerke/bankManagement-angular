@@ -29,12 +29,13 @@ export class AccountService {
         return this._accounts$.asObservable();
     }
 
-    loadAccounts(): void {
-        if(!this.canReload()) {return;}
+    loadAccounts(reload?: true): void {
+        if(!this.canReload(reload)) {return;}
 
         this.setLoadingStatus(true);
         this.http.get<Account[]>(`${environment.API_URL}/${environment.ACCOUNTS}`).pipe(
             tap(accounts => {
+                console.log("reload accounts");
                 this.lastTimeLoaded = Date.now();
                 this._accounts$.next(accounts);
                 this.setLoadingStatus(false);
@@ -73,7 +74,9 @@ export class AccountService {
         )
     }
 
-    private canReload(): boolean {
+    private canReload(reload?: true): boolean {
+        if(reload){return true;}
+
         const credentials = window.sessionStorage.getItem(AppConstant.SESSION_STORAGE_CREDENTIALS_KEY);
         const login = credentials ? JSON.parse(credentials).username : null;
 

@@ -25,6 +25,10 @@ export class AuthService {
     this.http.get(`${environment.API_URL}/${environment.CLIENTS}`, { observe: 'response', withCredentials: true, responseType: 'json'})
     .subscribe({
       next: (res) => {
+
+        let xsrf = this.getCookie(AppConstant.COOKIE_CSRF_KEY);
+        window.sessionStorage.setItem(AppConstant.SESSION_STORAGE_CSRF_KEY, xsrf);
+
         this.setLoggingStatus(true)
         this.router.navigateByUrl('/home')
       },
@@ -41,7 +45,7 @@ export class AuthService {
     this._logged$.next(status);
   }
 
-  private handleError(error: HttpErrorResponse): any{
+  private handleError(error: HttpErrorResponse){
     /*
      * In general, occur when error with operators in client-side
      * In this case, CORS config error due to mock backend calls
@@ -57,5 +61,26 @@ export class AuthService {
     if(error.status === 401){
       window.alert('Bad credentials')
     }
+  }
+
+  /*
+  * Create a dynamic object with the
+  * document.cookie string.
+  * In this case, the final object should
+  * look like this:
+  * cookie = {
+  *    "JSESSIONID": "######",
+  *    "XSRF-TOKEN": "######"
+  * }
+  */
+  private getCookie(name: string) {
+    console.log(document.cookie)// n'imprime rien!!! N'arrive pas a recuperer les cookies fournit pas spring
+
+    let cookie: {[key: string]: any} = {};
+    document.cookie.split(';').forEach(function(el) {
+      let [k,v] = el.split('=');
+      cookie[k.trim()] = v;
+    })
+    return cookie[name];
   }
 }
