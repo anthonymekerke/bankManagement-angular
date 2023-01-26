@@ -26,8 +26,16 @@ export class AuthService {
     .subscribe({
       next: (res) => {
 
+        window.sessionStorage.setItem(AppConstant.SESSION_STORAGE_CONNECTED_USER_KEY, credentials.username);
+
         let xsrf = this.getCookie(AppConstant.COOKIE_CSRF_KEY);
         window.sessionStorage.setItem(AppConstant.SESSION_STORAGE_CSRF_KEY, xsrf);
+
+        let headers_authorization = res.headers.get('Authorization');
+        if(headers_authorization){
+          window.sessionStorage.setItem(AppConstant.SESSION_STORAGE_JWT_TOKEN_KEY, headers_authorization);
+          window.sessionStorage.removeItem(AppConstant.SESSION_STORAGE_CREDENTIALS_KEY)
+        }
 
         this.setLoggingStatus(true)
         this.router.navigateByUrl('/home')
@@ -38,7 +46,7 @@ export class AuthService {
 
   logout(): void {
     this.setLoggingStatus(false);
-    window.sessionStorage.removeItem(AppConstant.SESSION_STORAGE_CREDENTIALS_KEY);
+    window.sessionStorage.clear();
   }
 
   private setLoggingStatus(status: boolean){

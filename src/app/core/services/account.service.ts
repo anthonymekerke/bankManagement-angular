@@ -16,7 +16,7 @@ export class AccountService {
     private _loading$ = new BehaviorSubject<boolean>(false);
     private _accounts$ = new BehaviorSubject<Account[]>([]);
 
-    private username = '';
+    private username: string | null = '';
     private lastTimeLoaded = 0;
 
     constructor(private http: HttpClient){}
@@ -29,13 +29,12 @@ export class AccountService {
         return this._accounts$.asObservable();
     }
 
-    loadAccounts(reload?: true): void {
-        if(!this.canReload(reload)) {return;}
+    loadAccounts(newTransaction?: true): void {
+        if(!this.canReload(newTransaction)) {return;}
 
         this.setLoadingStatus(true);
         this.http.get<Account[]>(`${environment.API_URL}/${environment.ACCOUNTS}`).pipe(
             tap(accounts => {
-                console.log("reload accounts");
                 this.lastTimeLoaded = Date.now();
                 this._accounts$.next(accounts);
                 this.setLoadingStatus(false);
@@ -74,15 +73,13 @@ export class AccountService {
         )
     }
 
-    private canReload(reload?: true): boolean {
-        if(reload){return true;}
+    private canReload(newTransaction?: true): boolean {
+        if(newTransaction){return true;}
 
-        const credentials = window.sessionStorage.getItem(AppConstant.SESSION_STORAGE_CREDENTIALS_KEY);
-        const login = credentials ? JSON.parse(credentials).username : null;
-
-        if(this.username !== login){
-            this.username = login;
-            return true;
+        const username = window.sessionStorage.getItem(AppConstant.SESSION_STORAGE_CONNECTED_USER_KEY);
+        if(this.username !== username){
+        this.username = username;
+        return true;
         }
 
         return Date.now() - this.lastTimeLoaded >= AppConstant.DELAY_RELOAD

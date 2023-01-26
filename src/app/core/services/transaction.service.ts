@@ -16,7 +16,7 @@ export class TransactionService {
   private _transactions$ = new BehaviorSubject<Transaction[]>([]);
 
   private accountId!: number;
-  private username = '';
+  private username: string | null = '';
   private lastTimeLoaded = 0;
 
   constructor(private http: HttpClient) {}
@@ -58,7 +58,7 @@ export class TransactionService {
       valueDate: form.valueDate.toISOString(),
       withdraw: form.amount,
       payment: null,
-      wording: `TRANSACTION MADE FROM APP OF ${form.amount} EUROS`,
+      wording: `VIR SEPA transaction of ${form.amount} euros made from app`,
       balance: 0, //must be compute in backend
       account: form.account 
     }
@@ -72,11 +72,9 @@ export class TransactionService {
   }
 
   private canReload(accountId: number): boolean{
-    const credentials = window.sessionStorage.getItem(AppConstant.SESSION_STORAGE_CREDENTIALS_KEY);
-    const login = credentials ? JSON.parse(credentials).username : null;
-
-    if(this.username !== login){
-      this.username = login;
+    const username = window.sessionStorage.getItem(AppConstant.SESSION_STORAGE_CONNECTED_USER_KEY);
+    if(this.username !== username){
+      this.username = username;
       return true;
     }
     
